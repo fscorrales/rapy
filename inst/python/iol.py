@@ -106,6 +106,16 @@ def iol_portafolio(iol_response, pais = "argentina"):
   response = pd.json_normalize(response)
   return response
   
+###Operación
+def iol_operacion(iol_response, numero):
+  h = {
+    "Authorization":"Bearer " + iol_response["access_token"]
+  }
+  endpoint = BASE_URL + f"/api/v2/operaciones/{numero}"
+  response = requests.get(endpoint, headers = h).json()
+  response = pd.DataFrame(response)
+  return response
+
 ###Operaciones
 def iol_operaciones(iol_response, numero = "", estado = "",
 fecha_desde  = "", fecha_hasta = "", pais = ""):
