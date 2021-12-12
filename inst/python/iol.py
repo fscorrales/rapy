@@ -94,3 +94,61 @@ def iol_estado_de_cuenta(iol_response):
   "disponible_operar", "nro_cta", "tipo", "moneda", "titulos_valorizados",
   "total", "margen_descubierto"]  
   return response
+  
+###Portafolio (Verificar que pasa cuando hay varias operaciones en distintos plazos)
+def iol_portafolio(iol_response, pais = "argentina"):
+  h = {
+    "Authorization":"Bearer " + iol_response["access_token"]
+  }
+  endpoint = BASE_URL + f"/api/v2/portafolio/{pais}"
+  response = requests.get(endpoint, headers = h).json()
+  response = response["activos"]
+  response = pd.json_normalize(response)
+  return response
+  
+###Operaciones
+def iol_operaciones(iol_response, numero = "", estado = "",
+fecha_desde  = "", fecha_hasta = "", pais = ""):
+  h = {
+    "Authorization":"Bearer " + iol_response["access_token"]
+  }
+  if numero != "":
+    he = {
+      "filtro.numero":numero
+    }
+    h = {**h, **he}
+  if estado != "":
+    he = {
+      "filtro.estado":estado
+    }
+    h = {**h, **he}  
+  if fecha_desde != "":
+    he = {
+      "filtro.fechaDesde":fecha_desde
+    }
+    h = {**h, **he} 
+  if fecha_hasta != "":
+    he = {
+      "filtro.fechaHasta":fecha_hasta
+    }
+    h = {**h, **he} 
+  if pais != "":
+    he = {
+      "filtro.pais":pais
+    }
+    h = {**h, **he}
+  endpoint = BASE_URL + f"/api/v2/operaciones"
+  response = requests.get(endpoint, headers = h).json()
+  response = pd.DataFrame(response)
+  return response
+  
+##TITULOS
+###Instrumentos por país
+def iol_instrumentos_por_pais(iol_response, pais = "argentina"):
+  h = {
+    "Authorization":"Bearer " + iol_response["access_token"]
+  }
+  endpoint = BASE_URL + f"/api/v2/{pais}/Titulos/Cotizacion/Instrumentos"
+  response = requests.get(endpoint, headers = h).json()
+  response = pd.DataFrame(response)
+  return response
