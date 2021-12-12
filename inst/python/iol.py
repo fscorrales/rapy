@@ -52,3 +52,29 @@ def iol_authentication(user_name, password):
     return response
   
 #iol_response = iol_authentication("iol_user_name", "iol_password")
+
+##TIME TO EXPIRE
+LIST_MONTH = {
+  "Jan":"01",
+  "Feb":"02",
+  "Mar":"03",
+  "Apr":"04",
+  "May":"05",
+  "Jun":"06",
+  "Jul":"07",
+  "Aug":"08",
+  "Sep":"09",
+  "Oct":"10",
+  "Nov":"11",
+  "Dec":"12"
+}
+
+def iol_seconds_to_expire(iol_response = 0):
+  iol_expire = iol_response[".expires"][5::].split(" ")
+  iol_expire[1] = LIST_MONTH[iol_expire[1]]
+  expire_datetime = " "
+  expire_datetime = expire_datetime.join(iol_expire)
+  expire_datetime = dt.datetime.strptime(expire_datetime, "%d %m %Y %H:%M:%S %Z")
+  sec_to_expire = (expire_datetime - dt.datetime.now()).total_seconds()
+  return sec_to_expire
+
