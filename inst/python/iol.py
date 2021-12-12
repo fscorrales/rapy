@@ -115,6 +115,16 @@ def iol_operacion(iol_response, numero):
   response = requests.get(endpoint, headers = h).json()
   response = pd.DataFrame(response)
   return response
+  
+###Delete operación
+def iol_delete_operacion(iol_response, numero):
+  h = {
+    "Authorization":"Bearer " + iol_response["access_token"]
+  }
+  endpoint = BASE_URL + f"/api/v2/operaciones/{numero}"
+  response = requests.delete(endpoint, headers = h).json()
+  response = pd.DataFrame(response)
+  return response
 
 ###Operaciones
 def iol_operaciones(iol_response, numero = "", estado = "",
