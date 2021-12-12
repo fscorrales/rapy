@@ -80,7 +80,7 @@ def iol_seconds_to_expire(iol_response = 0):
 
 ##MI CUENTA
 ###Estado de Cuenta
-def iol_estado_de_cuenta(iol_response):
+def iol_get_estado_de_cuenta(iol_response):
   h = {
     "Authorization":"Bearer " + iol_response["access_token"]
   }
@@ -96,7 +96,7 @@ def iol_estado_de_cuenta(iol_response):
   return response
   
 ###Portafolio (Verificar que pasa cuando hay varias operaciones en distintos plazos)
-def iol_portafolio(iol_response, pais = "argentina"):
+def iol_get_portafolio(iol_response, pais = "argentina"):
   h = {
     "Authorization":"Bearer " + iol_response["access_token"]
   }
@@ -107,7 +107,7 @@ def iol_portafolio(iol_response, pais = "argentina"):
   return response
   
 ###Operación
-def iol_operacion(iol_response, numero):
+def iol_get_operacion(iol_response, numero):
   h = {
     "Authorization":"Bearer " + iol_response["access_token"]
   }
@@ -127,7 +127,7 @@ def iol_delete_operacion(iol_response, numero):
   return response
 
 ###Operaciones
-def iol_operaciones(iol_response, numero = "", estado = "",
+def iol_get_operaciones(iol_response, numero = "", estado = "",
 fecha_desde  = "", fecha_hasta = "", pais = ""):
   h = {
     "Authorization":"Bearer " + iol_response["access_token"]
@@ -164,7 +164,7 @@ fecha_desde  = "", fecha_hasta = "", pais = ""):
   
 ##TITULOS
 ###Instrumentos por país
-def iol_instrumentos_por_pais(iol_response, pais = "argentina"):
+def iol_get_instrumentos_por_pais(iol_response, pais = "argentina"):
   h = {
     "Authorization":"Bearer " + iol_response["access_token"]
   }
