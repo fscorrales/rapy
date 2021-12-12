@@ -78,3 +78,19 @@ def iol_seconds_to_expire(iol_response = 0):
   sec_to_expire = (expire_datetime - dt.datetime.now()).total_seconds()
   return sec_to_expire
 
+##MI CUENTA
+###Estado de Cuenta
+def iol_estado_de_cuenta(iol_response):
+  h = {
+    "Authorization":"Bearer " + iol_response["access_token"]
+  }
+  response = requests.get(BASE_URL + "/api/v2/estadocuenta", headers = h).json()
+  response = response["cuentas"]
+  response = pd.json_normalize(
+    response, "saldos", ["numero", "tipo", "moneda", "titulosValorizados",
+    "total", "margenDescubierto"]
+    )
+  response.columns = ["liquidacion", "saldo", "comprometido", "disponible",
+  "disponible_operar", "nro_cta", "tipo", "moneda", "titulos_valorizados",
+  "total", "margen_descubierto"]  
+  return response
